@@ -5,7 +5,7 @@
 //  Created by Ember Baker on 6/5/14.
 //  Copyright (c) 2014 Apportable. All rights reserved.
 //
-
+#import "Penguin.h"
 #import "Gameplay.h"
 
 @implementation Gameplay {
@@ -23,10 +23,14 @@
     CCNode *_contentNode;
     CCNode *_pullbackNode;
     CCNode *_mouseJointNode;
-    CCNode *_currentPenguin;
+    
+    Penguin *_currentPenguin;
+    
+    CCAction *_followPenguin;
     
     
 }
+    static const float MIN_SPEED = 5.f;
 
 -(void)didLoadFromCCB {
     
@@ -34,7 +38,7 @@
     CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
     [_levelNode addChild:level];
     
-    _physicsNode.debugDraw = TRUE;                                  //visulaize the physics
+    //_physicsNode.debugDraw = TRUE;                                  //visulaize the physics
     [_catapultArm.physicsBody setCollisionGroup:_catapult];         //catapult and arm shall not collide
     [_catapult.physicsBody setCollisionGroup:_catapult];
     _catapultJoint = [CCPhysicsJoint connectedPivotJointWithBodyA:_catapultArm.physicsBody bodyB:_catapult.physicsBody anchorA:_catapultArm.anchorPointInPoints];
@@ -57,7 +61,7 @@
         _mouseJointNode.position = touchLocation;
         _mouseJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_mouseJointNode.physicsBody bodyB:_catapultArm.physicsBody anchorA:ccp(0,0) anchorB:ccp(34,138) restLength:0.f stiffness:3000.f damping:150.f];
         
-        _currentPenguin = [CCBReader load:@"Penguin"];
+        _currentPenguin = (Penguin*) [CCBReader load:@"Penguin"];
         CGPoint penguinPosition = [_catapultArm convertToWorldSpace:ccp(34,138)];
         _currentPenguin.position = [_physicsNode convertToNodeSpace:penguinPosition];
         [_physicsNode addChild:_currentPenguin];
@@ -81,8 +85,10 @@
         
         [_penguinCatapultJoint invalidate];
         _penguinCatapultJoint = nil;
-        CCActionFollow *follow = [CCActionFollow actionWithTarget:_currentPenguin worldBoundary:self.boundingBox];
-        [_contentNode runAction:follow];
+        _followPenguin = [CCActionFollow actionWithTarget:_currentPenguin worldBoundary:self.boundingBox];
+        [_contentNode runAction:_followPenguin];
+        
+        _currentPenguin.launched =TRUE;
         
     }
 }
@@ -135,6 +141,34 @@
 -(void)retry{
     
     [[CCDirector sharedDirector] replaceScene:[CCBReader loadAsScene:@"Gameplay"]];
+}
+
+-(void)update:(CCTime)delta{
+    
+    if(_currentPenguin.launched){
+        
+        if (ccpLength(_currentPenguin.physicsBody.velocity) < MIN_SPEED){
+            
+            [self nextAttempt];
+            return;
+        }
+        
+        int xMin = xMin + _currentPenguin.boundingBox.size.width;
+    
+        if (xMin > (self.boundingBox.origin.x + self.boundingBox.size.width)){
+            
+            [self nextAttempt];
+            return;
+        }
+    }
+}
+
+-(void)nextAttempt{
+    _currentPenguin = nil;
+    [_contentNode stopAction:_followPenguin];
+    
+    CCActionMoveTo *actionMoveTo = [CCActionMoveTo actionWithDuration:1.f position:ccp(0,0)];
+    [_contentNode runAction:actionMoveTo];
 }
 
 @end
