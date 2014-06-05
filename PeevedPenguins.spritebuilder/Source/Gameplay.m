@@ -33,11 +33,14 @@
     CCNode* penguin = [CCBReader load:@"Penguin"];
     penguin.position = ccpAdd(_catapultArm.position, ccp(16,50));
     
-    [_physicsNode addChild:penguin];
-    
+    [_physicsNode addChild:penguin];                                //physics
     CGPoint launchDirection = ccp(1,0);
     CGPoint force = ccpMult(launchDirection, 8000);
     [penguin.physicsBody applyForce:force];
+    
+    self.position = ccp(0,0);                                       //follow the penguin
+    CCActionFollow *follow = [CCActionFollow actionWithTarget:penguin worldBoundary:self.boundingBox];
+    [self runAction:follow];
 }
 
 @end
