@@ -24,6 +24,8 @@
     CCNode *_pullbackNode;
     CCNode *_mouseJointNode;
     CCNode *_currentPenguin;
+    
+    
 }
 
 -(void)didLoadFromCCB {
@@ -41,6 +43,8 @@
     _pullbackJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_pullbackNode.physicsBody bodyB:_catapultArm.physicsBody anchorA:ccp(0,0) anchorB:ccp(34,138) restLength:60.f stiffness:500.f damping:40.f];
     
     _mouseJointNode.physicsBody.collisionMask = @[];
+    
+    _physicsNode.collisionDelegate =self;
     
 }
 
@@ -104,6 +108,28 @@
     self.position = ccp(0,0);                                       //follow the penguin
     CCActionFollow *follow = [CCActionFollow actionWithTarget:penguin worldBoundary:self.boundingBox];
     [_contentNode runAction:follow];
+}
+
+
+
+
+
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair seal:(CCNode *)nodeA wildcard:(CCNode *)nodeB{
+    
+    float engery = [pair totalKineticEnergy];
+    
+    if (engery > 5000.f) {
+        [self sealRemoved:nodeA];
+    }
+}
+
+-(void)sealRemoved:(CCNode *)seal {
+    CCParticleSystem *explosion = (CCParticleSystem *) [CCBReader load:@"SealExplosion"];
+    explosion.autoRemoveOnFinish = TRUE;
+    explosion.position = seal.position;
+    [seal.parent addChild:explosion];
+    
+    [seal removeFromParent];
 }
 
 -(void)retry{
