@@ -13,11 +13,13 @@
     CCPhysicsNode *_physicsNode;
     
     CCPhysicsJoint *_catapultJoint;
+    CCPhysicsJoint *_pullbackJoint;
     
     CCNode *_catapultArm;
     CCNode *_catapult;
     CCNode *_levelNode;
     CCNode *_contentNode;
+    CCNode *_pullbackNode;
 
 }
 
@@ -31,6 +33,9 @@
     [_catapultArm.physicsBody setCollisionGroup:_catapult];         //catapult and arm shall not collide
     [_catapult.physicsBody setCollisionGroup:_catapult];
     _catapultJoint = [CCPhysicsJoint connectedPivotJointWithBodyA:_catapultArm.physicsBody bodyB:_catapult.physicsBody anchorA:_catapultArm.anchorPointInPoints];
+    
+    _pullbackNode.physicsBody.collisionMask = @[];
+    _pullbackJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_pullbackNode.physicsBody bodyB:_catapultArm.physicsBody anchorA:ccp(0,0) anchorB:ccp(34,138) restLength:60.f stiffness:500.f damping:40.f];
 }
 
 -(void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event{      //called every touch of this scene
