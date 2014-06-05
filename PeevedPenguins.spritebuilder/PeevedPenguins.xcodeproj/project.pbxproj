@@ -37,6 +37,7 @@
 		B77F1B4217B978D7009739AE /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B4117B978D7009739AE /* CoreText.framework */; };
 		E6ECB4A01940C3090057A80B /* Seal.m in Sources */ = {isa = PBXBuildFile; fileRef = E6ECB49F1940C3090057A80B /* Seal.m */; };
 		E6ECB4A41940C3110057A80B /* Penguin.m in Sources */ = {isa = PBXBuildFile; fileRef = E6ECB4A31940C3110057A80B /* Penguin.m */; };
+		E6ECB4A91940C5FE0057A80B /* Gameplay.m in Sources */ = {isa = PBXBuildFile; fileRef = E6ECB4A81940C5FE0057A80B /* Gameplay.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,8 @@
 		E6ECB49F1940C3090057A80B /* Seal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Seal.m; path = Source/Seal.m; sourceTree = "<group>"; };
 		E6ECB4A21940C3110057A80B /* Penguin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Penguin.h; path = Source/Penguin.h; sourceTree = "<group>"; };
 		E6ECB4A31940C3110057A80B /* Penguin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Penguin.m; path = Source/Penguin.m; sourceTree = "<group>"; };
+		E6ECB4A71940C5FE0057A80B /* Gameplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gameplay.h; path = Source/Gameplay.h; sourceTree = "<group>"; };
+		E6ECB4A81940C5FE0057A80B /* Gameplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Gameplay.m; path = Source/Gameplay.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +139,8 @@
 				B737893E1807617C0076A88C /* AppDelegate.m */,
 				B7378992180767190076A88C /* MainScene.h */,
 				B7378993180767190076A88C /* MainScene.m */,
+				E6ECB4A71940C5FE0057A80B /* Gameplay.h */,
+				E6ECB4A81940C5FE0057A80B /* Gameplay.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -333,6 +338,7 @@
 				E6ECB4A01940C3090057A80B /* Seal.m in Sources */,
 				E6ECB4A41940C3110057A80B /* Penguin.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
+				E6ECB4A91940C5FE0057A80B /* Gameplay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
